@@ -1,12 +1,6 @@
 <?php
 session_start();
 include('../Database/connect.php');
-#if (!isset($_SESSION['language'])) {
-#    include('../Language/english.php');
-#} else {
-#$language = "../Language/" . $_SESSION['language'] . ".php";
-#    include($language);
-#} 
 ?>
 <?php
 include('Header/header.php');

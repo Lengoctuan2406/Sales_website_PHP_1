@@ -1,11 +1,5 @@
 <?php session_start();
 include('../Database/connect.php');
-#if (!isset($_SESSION['language'])) {
-#    include('../Language/vietnam.php'); //test
-#} else {
-#    $language = "../Language/" . $_SESSION['language'] . ".php";
-#    include($language);
-#}
 // Code cho login 
 function test_input($data)
 {
@@ -17,7 +11,7 @@ function test_input($data)
 if (isset($_POST['login'])) {
     $email = test_input($_POST['email']);
     $email = filter_var($email, FILTER_SANITIZE_EMAIL);
-    // Validate e-mail
+    // kiểm tra e-mail
     if (!filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
         $password = test_input($_POST['password']);
         $ret = mysqli_query($con, "SELECT account_id, account_name, role_id  FROM account WHERE email='$email' and password='$password'");
@@ -65,18 +59,6 @@ include('Header/header.php');
     <div>
         <div><a href="signup.php">Create a new account</a></div>
         <div><a href="index.php">Return your page</a></div>
-        <!--<div>
-            <h1><?php #echo $CHOOSE_LANGUAGE; ?></h1>
-            <form name="change" action="<?php #echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-                <select onchange="changeLanguage(this.value)">
-                    <option value="vietnam" selected><?php #echo $VIETNAMESE; ?></option>
-                    <option value="english"><?php #echo $ENGLISH; ?></option>
-                </select>
-            </form>
-            <div id="showChange"></div>
-        </div>-->
     </div>
-
 </body>
-
 </html>
