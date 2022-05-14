@@ -1,3 +1,3 @@
 <?php
+
 $tenbien = "ví dụ";
-?>
