@@ -2,6 +2,7 @@
 include('Handling/index.php');
 include('Header/header.php');
 ?>
+<link rel="stylesheet" href="../Styles/CSS/home.css"> 
 <body>
     <div>
         <?php
