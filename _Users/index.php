@@ -1,14 +1,11 @@
 <?php
-session_start();
-include('../Database/connect.php');
-?>
-<?php
+include('Handling/index.php');
 include('Header/header.php');
 ?>
 <body>
     <div>
         <?php
-        if (!isset($_SESSION['user_id'])) {
+        if (!isset($_SESSION['account_id'])) {
             ?>
             <a href="login.php">Login</a>
             <?php
@@ -84,43 +81,29 @@ include('Header/header.php');
         <p class="h2 text-center">Trending Products</p>
     </div>
     <div class="row ml-0 mr-0 justify-content-center" id="categories">
-        <div class="box-e col col-lg-2">
-            <a href="" class="custom-underline">Cat Foods</a>
-        </div>
-        <div class="box-e col col-lg-2">
-            <a href="" class="custom-underline">Dog Foods</a>
-        </div>
-        <div class="box-e col col-lg-2">
-            <a href="" class="custom-underline">Pet Toys</a>
-        </div>
+        <?php
+        while ($row = mysqli_fetch_array($query_category)) {
+            ?>
+            <div class="box-e col col-lg-2">
+                <a href="" class="custom-underline"><?php echo htmlentities($row['category_name']);?></a>
+            </div>
+        <?php } ?>
     </div>
 
     <!--một số hình ảnh sản phẩm-->
     <div class="products__grid--container">
+        <?php
+        while ($row = mysqli_fetch_array($query_products)) {
+            ?>
         <a style="color: rgb(22, 22, 22)" href="">
-            <img class="imageradius" src="https://picsum.photos/seed/picsum/300/300" alt="product1">
-            <p class="h6 text-center product-name">Product name</p>
+            <img class="imageradius" src="../Styles/Image/<?php echo htmlentities($row['thumnail']);?>" alt="product1">
+            <p class="h6 text-center product-name"><?php echo htmlentities($row['product_name']);?></p>
             <p class="h6 text-center product-price">
-                <del style="margin-right: 4px">$88.8</del>
-                <strong>$99.9</strong>
+                <del style="margin-right: 4px"><?php echo htmlentities($row['price']);?></del>
+                <strong><?php echo htmlentities($row['price']*0.8);?></strong>
             </p>
         </a>
-        <a style="color: rgb(22, 22, 22)" href="">
-            <img class="imageradius" src="https://picsum.photos/seed/picsum/300/300" alt="product1">
-            <p class="h6 text-center product-name">Product name</p>
-            <p class="h6 text-center product-price">
-                <del style="margin-right: 4px">$88.8</del>
-                <strong>$99.9</strong>
-            </p>
-        </a>
-        <a style="color: rgb(22, 22, 22)" href="">
-            <img class="imageradius" src="https://picsum.photos/seed/picsum/300/300" alt="product1">
-            <p class="h6 text-center product-name">Product name</p>
-            <p class="h6 text-center product-price">
-                <del style="margin-right: 4px">$88.8</del>
-                <strong>$99.9</strong>
-            </p>
-        </a>
+        <?php } ?>
     </div>
 
     <!--hiện thị tất cả sản phẩm-->
