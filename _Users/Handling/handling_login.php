@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-include('../Database/connect.php');
+include('../database/connect.php');
 
 // Code cho login 
 function test_input($data) {
@@ -17,7 +17,7 @@ if (isset($_POST['login'])) {
     // kiểm tra e-mail
     if (!filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
         $password = test_input($_POST['password']);
-        $ret = mysqli_query($con, "select account_id, account_name, role from accounts where email='$email' and password='$password'");
+        $ret = mysqli_query($con, "SELECT account_id, account_name, role FROM accounts WHERE email='$email' and password='$password'");
         $num = mysqli_fetch_array($ret);
         if ($num > 0) {
             $_SESSION['account_id'] = $num['account_id'];

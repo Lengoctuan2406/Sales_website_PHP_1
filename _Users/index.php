@@ -1,8 +1,19 @@
 <?php
-include('Handling/index.php');
-include('Header/header.php');
+include('Handling/handling_index.php');
 ?>
-<link rel="stylesheet" href="../Styles/CSS/home.css"> 
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous"></head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> 
+    <link rel="stylesheet" href="../assets/css/home.css"> 
+</head>
 <body>
     <div>
         <?php
@@ -23,15 +34,15 @@ include('Header/header.php');
         <div class="slideshow-container slide-wrapper">
             <div class="mySlides">
                 <div class="numbertext">1 / 3</div>
-                <img src="../Styles/Image/slide1.png" style="width:100%">
+                <img src="../assets/image/slide1.png" style="width:100%">
             </div>
             <div class="mySlides">
                 <div class="numbertext">2 / 3</div>
-                <img src="../Styles/Image/slide2.png" style="width:100%">
+                <img src="../assets/image/slide2.png" style="width:100%">
             </div>
             <div class="mySlides">
                 <div class="numbertext">3 / 3</div>
-                <img src="../Styles/Image/slide3.png" style="width:100%">
+                <img src="../assets/image/slide3.png" style="width:100%">
             </div>
             <div style="text-align:center" class="dot-slide">
                 <span class="dot" onclick="currentSlide(1)"></span>
@@ -48,25 +59,25 @@ include('Header/header.php');
     <div class="category--container">
         <a href="">
             <div class="category--item">
-                <img class="imageradius" src="../Styles/Image/banner-cat.png" alt="category1">
+                <img class="imageradius" src="../assets/image/banner-cat.png" alt="category1">
             </div>
         </a>
         <a href="">
             <div class="category--item">
-                <img class="imageradius" src="../Styles/Image/banner-toys.png" alt="category2">
+                <img class="imageradius" src="../assets/image/banner-toys.png" alt="category2">
             </div>
         </a>
 
         <a href="">
             <div class="category--item">
-                <img class="imageradius" src="../Styles/Image/banner-dog.png" alt="category3">
+                <img class="imageradius" src="../assets/image/banner-dog.png" alt="category3">
             </div>
         </a>
     </div>
     <!-- thông tin nhà cung cấp -->
     <div class="supplier--container">
         <div class="supplier--photo">
-            <img class="imageradius" style="max-width: 800px;" src="../Styles/Image/slide2.png" alt="supplier-photo">
+            <img class="imageradius" style="max-width: 800px;" src="../assets/image/slide2.png" alt="supplier-photo">
         </div>
         <div class="supplier--info">
             <h3>BEST SUPPLIER</h3>
@@ -117,10 +128,10 @@ include('Header/header.php');
     <!-- mã giảm giá -->
     <div class="saleoff--container">
         <div class="saleoff--item">
-            <img class="imageradius" src="../Styles/Image/sale-off-1.jpg" alt="saleoff1">
+            <img class="imageradius" src="../assets/image/sale-off-1.jpg" alt="saleoff1">
         </div>
         <div class="saleoff--item">
-            <img class="imageradius" src="../Styles/Image/sale-off-2.png" alt="saleoff2">
+            <img class="imageradius" src="../assets/image/sale-off-2.png" alt="saleoff2">
         </div>
     </div>
 
@@ -131,31 +142,31 @@ include('Header/header.php');
     </div>
     <div class="grid-container partner-photos">
         <div class="col partner-logo">
-            <img src="../Styles/Image/logo1.png" alt="logo1">
+            <img src="../assets/image/logo1.png" alt="logo1">
         </div>
         <div class="col partner-logo">
-            <img src="../Styles/Image/logo2.png" alt="logo2">
+            <img src="../assets/image/logo2.png" alt="logo2">
         </div>
         <div class="col partner-logo">
-            <img src="../Styles/Image/logo3.png" alt="logo3">
+            <img src="../assets/image/logo3.png" alt="logo3">
         </div>
         <div class="col partner-logo">
-            <img src="../Styles/Image/logo1.png" alt="logo4">
+            <img src="../assets/image/logo1.png" alt="logo4">
         </div>
     </div>
     <br>
     <div class="grid-container partner-photos">
         <div class="col partner-logo">
-            <img src="../Styles/Image/logo4.png" alt="logo5">
+            <img src="../assets/image/logo4.png" alt="logo5">
         </div>
         <div class="col partner-logo">
-            <img src="../Styles/Image/logo5.png" alt="logo6">
+            <img src="../assets/image/logo5.png" alt="logo6">
         </div>
         <div class="col partner-logo">
-            <img src="../Styles/Image/logo6.png" alt="logo7">
+            <img src="../assets/image/logo6.png" alt="logo7">
         </div>
         <div class="col partner-logo">
-            <img src="../Styles/Image/logo7.png" alt="logo8">
+            <img src="../assets/image/logo7.png" alt="logo8">
         </div>
     </div>
 
@@ -165,19 +176,19 @@ include('Header/header.php');
         <p class="h4 text-center">FOLLOW US ON FACEBOOK</p>
         <div class="follow-photos">
             <div class="follow-content ">
-                <img src="../Styles/Image/follow1.jpg" alt="Slide1">
+                <img src="../assets/image/follow1.jpg" alt="Slide1">
             </div>
             <div class="follow-content ">
-                <img src="../Styles/Image/follow2.jpg" alt="Slide2">
+                <img src="../assets/image/follow2.jpg" alt="Slide2">
             </div>
             <div class="follow-content ">
-                <img src="../Styles/Image/follow3.jpg" alt="Slide3">
+                <img src="../assets/image/follow3.jpg" alt="Slide3">
             </div>
             <div class="follow-content">
-                <img src="../Styles/Image/follow4.jpg" alt="Slide4">
+                <img src="../assets/image/follow4.jpg" alt="Slide4">
             </div>
         </div>
     </div>
-    <script src="../Styles/js/home.js"></script>
+    <script src="../assets/js/home.js"></script>
 </body>
 </html>
