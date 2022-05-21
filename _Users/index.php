@@ -1,5 +1,5 @@
 <?php
-include('Handling/handling_index.php');
+include('handling/handling_index.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -94,10 +94,11 @@ include('Handling/handling_index.php');
     </div>
     <div class="row ml-0 mr-0 justify-content-center" id="categories">
         <?php
-        while ($row = mysqli_fetch_array($query_category)) {
+        $query_type_product = mysqli_query($con, "SELECT * FROM type_product;");
+        while ($row = mysqli_fetch_array($query_type_product)) {
             ?>
             <div class="box-e col col-lg-2">
-                <a href="" class="custom-underline"><?php echo htmlentities($row['category_name']);?></a>
+                <a href="" class="custom-underline"><?php echo htmlentities($row['type_name']);?></a>
             </div>
         <?php } ?>
     </div>
@@ -105,10 +106,11 @@ include('Handling/handling_index.php');
     <!--một số hình ảnh sản phẩm-->
     <div class="products__grid--container">
         <?php
+        $query_products = mysqli_query($con, "SELECT * FROM products;");
         while ($row = mysqli_fetch_array($query_products)) {
             ?>
         <a style="color: rgb(22, 22, 22)" href="">
-            <img class="imageradius" src="../Styles/Image/<?php echo htmlentities($row['thumnail']);?>" alt="product1">
+            <img class="imageradius" src="../assets/image/<?php echo htmlentities($row['thumnail']);?>" alt="product1">
             <p class="h6 text-center product-name"><?php echo htmlentities($row['product_name']);?></p>
             <p class="h6 text-center product-price">
                 <del style="margin-right: 4px"><?php echo htmlentities($row['price']);?></del>
