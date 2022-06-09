@@ -1,11 +1,12 @@
+
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous"></head>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous"></head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>  
@@ -13,12 +14,6 @@
     <title>Page Product</title>
 </head>
 <body>
-    <!-- @extends('client.master')
-    @section('style') -->
-    <!-- @endsection
-    @section('title', 'Product')
-    @section('content')
-    {{-- @dd($listProducts) --}} -->
     <div class=".container-fluid">
         <div class="shop">
             <!-- banner     -->
@@ -32,7 +27,7 @@
             </nav>
         </div>
     </div>
-<!-- search button -->
+    <!-- search button -->
     <div class="row mt-5 ml-4">
         <div class="col-sm-3">
             <div class="ml-2">
@@ -44,21 +39,18 @@
                 </div>
             </div>
             <br>
-            <!-- categorties -->
+            <!-- categories -->
             <div class="categorties ml-2">
                 <div class="titleCategorties mb-3 font-weight-bold">Categories</div>
                 <div class="contentCategorties">
-                    <div>
-                        <a href="" class="content mb-2">Food</a>
-                    </div>
-                    <!-- @foreach ($listCategories as $cate) -->
-                    <div>
-                        <a href="" class="content mb-2">Toy</a>
-                    </div>
-                    <div>
-                        <a href="" class="content mb-2">Cloth</a>
-                    </div>
-                    <!-- @endforeach -->
+                    <?php
+                    $query_type_product = mysqli_query($con, "SELECT * FROM type_product;");
+                    while ($row = mysqli_fetch_array($query_type_product)) {
+                        ?>
+                        <div>
+                            <a href="" class="content mb-2"><?php echo $row['type_name']; ?></a>
+                        </div>
+                    <?php } ?>
                 </div>
             </div>        
             <!--Trending product-->
@@ -66,8 +58,6 @@
                 <div class="titleTrending mb-3 font-weight-bold">
                     Trending product
                 </div>
-                <!-- @foreach ($trendingProducts as $product) -->
-                <!--trending product 1-->
                 <div class="trendingproduct name">
                     <div class="trendingname">
                         <div>
@@ -277,22 +267,22 @@
                 <!-- @endforeach -->
 
             </div>
-        <!--Next page-->        
-        <div class="nextpage1">          
-            <div class="pagination1">
-                <a href="#" class="active mr-3">1</a>
-                <a href="#">2</a>
-                <i class="arrow right"></i>             
+            <!--Next page-->        
+            <div class="nextpage1">          
+                <div class="pagination1">
+                    <a href="#" class="active mr-3">1</a>
+                    <a href="#">2</a>
+                    <i class="arrow right"></i>             
+                </div>
             </div>
-        </div>
-    </div>      
+        </div>      
 
-    <!-- @endsection
-
-    @section('javascript')
-
-    @endsection -->
-    <!-- <style>a {color:black}</style> -->
+        <!-- @endsection
+    
+        @section('javascript')
+    
+        @endsection -->
+        <!-- <style>a {color:black}</style> -->
 </body>
 <footer>
     <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>   -->

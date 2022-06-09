@@ -1,0 +1,111 @@
+MÔ TẢ DATABASE CỦA SIÊU THỊ THÚ CƯNG:
+
+create table products(
+	product_id int(5) primary key AUTO_INCREMENT,
+	product_name varchar(50),
+	type_id int(5),
+	brand varchar(25),
+	quantity int(5),
+	description text,
+	price int(10),
+	thumnail varchar(50)
+);
+
+create table type_product(
+	type_id int(5) primary key AUTO_INCREMENT,
+	type_name varchar(25)
+);
+
+create table accounts(
+	account_id int(5) primary key AUTO_INCREMENT,
+	account_name varchar(30),
+	password varchar(50),
+	date_of_birth datetime,
+	address varchar(50),
+	gender varchar(3),
+	phone varchar(11),
+	email varchar(50),
+	avatar varchar(50),
+	role int(1),
+	created_date datetime,
+	update_date datetime
+);
+
+create table employees(
+	employee_id int(5) primary key AUTO_INCREMENT,
+	account_id int(5),
+	position varchar(50)
+);
+
+create table coupons(
+	coupon_id int(5) primary key AUTO_INCREMENT,
+	coupon_name varchar(50),
+	discount int(5)
+	date_start datetime,
+	date_end datetime,
+	status int(1)
+);
+
+create table orders(
+	order_id int(5) primary key AUTO_INCREMENT,
+	account_id int(5),
+	product_id int(5),
+	coupon_id int(5),
+	quantity int(3),
+	price int(3),
+	date_invoice datetime,
+	order_status_id int(5)
+);
+
+create table order_status(
+	order_status_id int(5) primary key AUTO_INCREMENT,
+	order_status_name varchar(50),
+)
+
+create table reviews(
+	review_id int(5) primary key AUTO_INCREMENT,
+	account_id int(5),
+	product_id int(5),
+	text text,
+	rating int(1),
+	review_status_id int(5),
+	date_added datetime
+)
+
+create table reivew_status(
+	review_status_id int(5) primary key AUTO_INCREMENT,
+	review_status_name varchar(50)
+)
+
+create table purchases_history(
+	purchase_id int(5) primary key AUTO_INCREMENT,
+	account_id int(5),
+	product_id int(5),
+	coupon_id int(5),
+	quantity int(3),
+	price int(3),
+	created_date datetime
+)
+
+--FOREIGN KEY--
+
+alter table product add constraint fk_product_typeProduct foreign key (type_id) references typeProduct(type_id);
+
+alter table customer add constraint fk_customer_userid foreign key (user_id) references user_acc(user_id);
+
+alter table employee add constraint fk_employee_userid foreign key (user_id) references user_acc(user_id);
+
+alter table user_acc add constraint fk_product_roleid foreign key (role_id) references role(role_id);
+
+alter table order add constraint fk_order_customer foreign key (customer_id) references customer(customer_id);
+alter table order add constraint fk_order_orderStatus foreign key (orderStatus_id) references orderStatus(orderStatus_id);
+alter table order add constraint fk_order_sale foreign key (sale_id) references sale(sale_id);
+
+alter table orderDetail add constraint fk_orderDetail_orderid foreign key(order_id) references order(order_id);
+alter table orderDetail add constraint fk_orderdetail_productid foreign key(product_id) references product(product_id);
+
+
+
+
+
+
