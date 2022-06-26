@@ -1,24 +1,133 @@
-
+<?php
+include('../database/connect.php');
+include('handling/handling_page_product.php');
+if (!isset($_GET['next_page']) && !isset($_POST['search'])) {
+    header("location:login.php");
+}
+if (isset($_POST['search'])) {
+    $_GET['next_page'] = 0;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+        <link href="../assets/img/others/logo_mini.png" rel="icon">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous"></head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>  
-    <link rel="stylesheet" href="../assets/css/pageProduct.css">  
+
+    <!-- Bootstrap -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <!-- Bootstrap -->
+
+    <link rel="stylesheet" href="../assets/css/users/footer.css"> 
+    <link rel="stylesheet" href="../assets/css/users/header.css"> 
+    <link rel="stylesheet" href="../assets/css/users/page_product.css">  
     <title>Page Product</title>
 </head>
+<header>
+    <nav class="navbar__container">
+        <div class="navbar__topnav navbar__topnav-main">
+            <div class="topnav__item topnav__item__logo">
+                <a href="index.php">
+                    <img class="imageradius" src="../assets/img/others/logo_meow.png" style="max-width: 130px; padding-top: 10px"
+                         alt="product1">
+                </a>
+            </div>
+
+            <div class="topnav__item topnav__item-fullscreen">
+                <a href="index.php" class="topnav__item__button">
+                    HOME
+                </a>
+                <div id="topnav__item-product">
+                    <a href="" class="topnav__item__button">
+                        PRODUCT
+                    </a>
+                    <div class="product__dropdown__content">
+                        <?php
+                        $query_type = mysqli_query($con, "SELECT product_type_id, product_type_name FROM product_types;");
+                        while ($row = mysqli_fetch_array($query_type)) {
+                            ?>
+                            <a href="page_category.php?product_type_id=<?php echo htmlentities($row['product_type_id']); ?>"><?php echo htmlentities($row['product_type_name']); ?></a>
+                        <?php } ?>
+                    </div>
+                </div>
+                <a href="" class="topnav__item__button">
+                    CONTACT
+                </a>
+            </div>
+            <div class="topnav__item topnav__item-fullscreen">
+                <input type="text" id="topnav__search__input" />
+                <?php
+                if (!isset($_SESSION['account_id'])) {
+                    ?>
+                    <a href="login.php" class="topnav__item__button">
+                        LOG IN
+                    </a>
+                <?php } else { ?> 
+                    <a href="account_page.php" class="topnav__item__button">
+                        Hello <?php echo $_SESSION['account_name']; ?>
+                    </a> 
+                <?php } ?>
+                <div id="topnav__item__cart">
+                    <a class="topnav__item__button topnav__item-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </a>
+
+                    <div class="cart__dropdown">
+                        <div class="cart__dropdown__list">
+                            <?php
+                            $total = 0;
+                            $infor_cart = "products.product_id, product_name, product_price, product_image_1, discount, cart_quantity";
+                            $table = "products, count_sales, product_types, coupons, carts";
+                            $link = "products.product_type_id=product_types.product_type_id AND product_types.coupon_id=coupons.coupon_id AND count_sales.product_id=products.product_id AND carts.product_id=products.product_id";
+                            $query_carts = mysqli_query($con, "SELECT " . $infor_cart . " FROM $table WHERE $link AND account_id=" . $_SESSION['account_id'] . ";");
+                            while ($row = mysqli_fetch_array($query_carts)) {
+                                $GLOBALS['total'] += (($row['product_price'] - ($row['product_price'] * ($row['discount'] / 100))) * $row['cart_quantity']);
+                                ?>
+                                <div class="cart__dropdown__item">
+                                    <img src="../assets/img/image_products/<?php echo htmlentities($row['product_image_1']); ?>" class="cart__dropdown__image" alt="" srcset="">
+                                    <div class="cart__dropdown__content">
+                                        <a href="product_detail.php?product_id=<?php echo htmlentities($row['product_id']); ?>" class="cart__dropdown__content-name">
+                                            <?php echo htmlentities($row['product_name']); ?>
+                                        </a>
+                                        <div class="cart__dropdown__content-price">
+                                            <?php echo htmlentities($row['cart_quantity']); ?>
+                                        </div>
+                                        <div class="cart__dropdown__content-price">
+                                            $<?php echo htmlentities(($row['product_price'] - ($row['product_price'] * ($row['discount'] / 100))) * $row['cart_quantity']); ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                            <?php } ?>
+                        </div>    
+                        <div class="cart__dropdown__selection">
+                            <a href="page_carts.php" class="cart__dropdown__button">View Cart</a>
+                            <a href="checkout.php" class="cart__dropdown__button">Checkout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
 <body>
     <div class=".container-fluid">
         <div class="shop">
-            <!-- banner     -->
-            <img id="banner" src="../assets/image/banner.png">
-            <!-- thanh dieu huong -->
+            <img id="banner" src="../assets/img/others/banner.png">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item ml-5"><i class="fas fa-home" aria-hidden="true"></i></li>
@@ -33,22 +142,25 @@
             <div class="ml-2">
                 <div class="inputWithIcon">
                     <div>
-                        <input type="text" placeholder="Search...." class="searchbtn py-1 border" id="searchbtn">
-                        <i class="fa fa-search" aria-hidden="true"></i>
+                        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+                            <input name="keyword" type="text" placeholder="Search..." class="searchbtn py-1 border" id="searchbtn">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                            <button name="search" type="submit" hidden></button>
+                        </form>
                     </div>
                 </div>
             </div>
             <br>
-            <!-- categories -->
+            <!-- categorties -->
             <div class="categorties ml-2">
                 <div class="titleCategorties mb-3 font-weight-bold">Categories</div>
                 <div class="contentCategorties">
                     <?php
-                    $query_type_product = mysqli_query($con, "SELECT * FROM type_product;");
-                    while ($row = mysqli_fetch_array($query_type_product)) {
+                    $query_categorys = mysqli_query($con, "SELECT product_type_id, product_type_name FROM product_types;");
+                    while ($row = mysqli_fetch_array($query_categorys)) {
                         ?>
                         <div>
-                            <a href="" class="content mb-2"><?php echo $row['type_name']; ?></a>
+                            <a href="page_category.php?product_type_id=<?php echo htmlentities($row['product_type_id']); ?>" class="content mb-2"><?php echo htmlentities($row['product_type_name']); ?></a>
                         </div>
                     <?php } ?>
                 </div>
@@ -58,60 +170,27 @@
                 <div class="titleTrending mb-3 font-weight-bold">
                     Trending product
                 </div>
-                <div class="trendingproduct name">
-                    <div class="trendingname">
-                        <div>
-                            <div><img class="imageradius" src="https://picsum.photos/seed/picsum/300/300" /></div>
+                <?php
+                $infor_product = "products.product_id, product_name, product_price, product_image_1, discount";
+                $query_trending_product = mysqli_query($con, "SELECT " . $infor_product . " FROM products, count_sales, product_types, coupons WHERE products.product_type_id=product_types.product_type_id AND product_types.coupon_id=coupons.coupon_id AND count_sales.product_id=products.product_id ORDER BY count_sale DESC LIMIT 3;");
+                while ($row = mysqli_fetch_array($query_trending_product)) {
+                    ?>
+                    <div class="trendingproduct name">
+                        <div class="trendingname">
+                            <a href="product_detail.php?product_id=<?php echo htmlentities($row['product_id']); ?>">
+                                <div>
+                                    <div><img class="imageradius" src="../assets/img/image_products/<?php echo htmlentities($row['product_image_1']); ?>" /></div>
+                                </div>
+                                <div class="contentTrending">
+                                    <div><?php echo htmlentities(substr($row['product_name'], 0, 25)); ?>...</div>
+                                    <del class="margimobile">$<?php echo htmlentities($row['product_price']); ?></del>
+                                    <strong>$<?php echo htmlentities($row['product_price'] - ($row['product_price'] * ($row['discount'] / 100))); ?></strong>
+                                </div>
+                            </a>
                         </div>
-                        <div class="contentTrending">
-                            <div>Product name</div>
-                            <!-- @if ($product->discount > 0) -->
-                            <del class="margimobile">$99.9</del>
-                            <strong>$88.9</strong>
-                            <!-- @else -->
-                            <!-- <strong>$99.9</strong> -->
-                            <!-- @endif -->
-                        </div>
+                        <hr class="my-3">
                     </div>
-                    <hr class="my-3">
-                </div>
-                <!-- @endforeach -->
-                <div class="trendingproduct name">
-                    <div class="trendingname">
-                        <div>
-                            <div><img class="imageradius" src="https://picsum.photos/seed/picsum/300/300" /></div>
-                        </div>
-                        <div class="contentTrending">
-                            <div>Product name</div>
-                            <!-- @if ($product->discount > 0) -->
-                            <del class="margimobile">$99.9</del>
-                            <strong>$88.9</strong>
-                            <!-- @else -->
-                            <!-- <strong>$99.9</strong> -->
-                            <!-- @endif -->
-                        </div>
-                    </div>
-                    <hr class="my-3">
-                </div>
-                <!-- @endforeach -->
-                <div class="trendingproduct name">
-                    <div class="trendingname">
-                        <div>
-                            <div><img class="imageradius" src="https://picsum.photos/seed/picsum/300/300" /></div>
-                        </div>
-                        <div class="contentTrending">
-                            <div>Product name</div>
-                            <!-- @if ($product->discount > 0) -->
-                            <del class="margimobile">$99.9</del>
-                            <strong>$88.9</strong>
-                            <!-- @else -->
-                            <!-- <strong>$99.9</strong> -->
-                            <!-- @endif -->
-                        </div>
-                    </div>
-                    <hr class="my-3">
-                </div>
-                <!-- @endforeach -->
+                <?php } ?>
             </div>
         </div>
 
@@ -119,172 +198,149 @@
         <div class="col-sm-9">
             <br><br>
             <div class="grid-container">
-                <!-- @foreach ($listProducts as $product) -->
-                <a href="" class="product-content">
-                    <div class="imageproduct text-center"><img class="radius-product" src="https://picsum.photos/seed/picsum/450/550"/>
-                        <div class="productname text-center mt-2">Product name</div>
-                    </div>
-                    <div>
-                        <!-- @if ($product->discount > 0) -->
-                        <del class="margimobile">$99.9</del>
-                        <strong>$88.8</strong>
-
-                        <!-- @else -->
-                        <strong>$99.9</strong>
-                        <!-- @endif -->
-                    </div>
-                </a>
-                <!-- @endforeach -->
-                <a href="" class="product-content">
-                    <div class="imageproduct text-center"><img class="radius-product" src="https://picsum.photos/seed/picsum/550/550"/>
-                        <div class="productname text-center mt-2">Product name</div>
-                    </div>
-                    <div>
-                        <!-- @if ($product->discount > 0) -->
-                        <del class="margimobile">$99.9</del>
-                        <strong>$88.8</strong>
-
-                        <!-- @else -->
-                        <strong>$99.9</strong>
-                        <!-- @endif -->
-                    </div>
-                </a>
-                <!-- @endforeach -->
-                <a href="" class="product-content">
-                    <div class="imageproduct text-center"><img class="radius-product" src="https://picsum.photos/seed/picsum/550/550"/>
-                        <div class="productname text-center mt-2">Product name</div>
-                    </div>
-                    <div>
-                        <!-- @if ($product->discount > 0) -->
-                        <del class="margimobile">$99.9</del>
-                        <strong>$88.8</strong>
-
-                        <!-- @else -->
-                        <strong>$99.9</strong>
-                        <!-- @endif -->
-                    </div>
-                </a>
-                <!-- @endforeach -->
-
-            </div>
-            <!--Next page-->        
-            <div class="grid-container">
-                <!-- @foreach ($listProducts as $product) -->
-                <a href="" class="product-content">
-                    <div class="imageproduct text-center"><img class="radius-product" src="https://picsum.photos/seed/picsum/550/550"/>
-                        <div class="productname text-center mt-2">Product name</div>
-                    </div>
-                    <div>
-                        <!-- @if ($product->discount > 0) -->
-                        <del class="margimobile">$99.9</del>
-                        <strong>$88.8</strong>
-
-                        <!-- @else -->
-                        <strong>$99.9</strong>
-                        <!-- @endif -->
-                    </div>
-                </a>
-                <!-- @endforeach -->
-                <a href="" class="product-content">
-                    <div class="imageproduct text-center"><img class="radius-product" src="https://picsum.photos/seed/picsum/550/550"/>
-                        <div class="productname text-center mt-2">Product name</div>
-                    </div>
-                    <div>
-                        <!-- @if ($product->discount > 0) -->
-                        <del class="margimobile">$99.9</del>
-                        <strong>$88.8</strong>
-
-                        <!-- @else -->
-                        <strong>$99.9</strong>
-                        <!-- @endif -->
-                    </div>
-                </a>
-                <!-- @endforeach -->
-                <a href="" class="product-content">
-                    <div class="imageproduct text-center"><img class="radius-product" src="https://picsum.photos/seed/picsum/550/550"/>
-                        <div class="productname text-center mt-2">Product name</div>
-                    </div>
-                    <div>
-                        <!-- @if ($product->discount > 0) -->
-                        <del class="margimobile">$99.9</del>
-                        <strong>$88.8</strong>
-
-                        <!-- @else -->
-                        <strong>$99.9</strong>
-                        <!-- @endif -->
-                    </div>
-                </a>
-                <!-- @endforeach -->
-
-            </div>
-            <!--Next page-->        
-            <div class="grid-container">
-                <!-- @foreach ($listProducts as $product) -->
-                <a href="" class="product-content">
-                    <div class="imageproduct text-center"><img class="radius-product" src="https://picsum.photos/seed/picsum/550/550"/>
-                        <div class="productname text-center mt-2">Product name</div>
-                    </div>
-                    <div>
-                        <!-- @if ($product->discount > 0) -->
-                        <del class="margimobile">$99.9</del>
-                        <strong>$88.8</strong>
-
-                        <!-- @else -->
-                        <strong>$99.9</strong>
-                        <!-- @endif -->
-                    </div>
-                </a>
-                <!-- @endforeach -->
-                <a href="" class="product-content">
-                    <div class="imageproduct text-center"><img class="radius-product" src="https://picsum.photos/seed/picsum/550/550"/>
-                        <div class="productname text-center mt-2">Product name</div>
-                    </div>
-                    <div>
-                        <!-- @if ($product->discount > 0) -->
-                        <del class="margimobile">$99.9</del>
-                        <strong>$88.8</strong>
-
-                        <!-- @else -->
-                        <strong>$99.9</strong>
-                        <!-- @endif -->
-                    </div>
-                </a>
-                <!-- @endforeach -->
-                <a href="" class="product-content">
-                    <div class="imageproduct text-center"><img class="radius-product" src="https://picsum.photos/seed/picsum/550/550"/>
-                        <div class="productname text-center mt-2">Product name</div>
-                    </div>
-                    <div>
-                        <!-- @if ($product->discount > 0) -->
-                        <del class="margimobile">$99.9</del>
-                        <strong>$88.8</strong>
-
-                        <!-- @else -->
-                        <strong>$99.9</strong>
-                        <!-- @endif -->
-                    </div>
-                </a>
-                <!-- @endforeach -->
-
-            </div>
-            <!--Next page-->        
-            <div class="nextpage1">          
-                <div class="pagination1">
-                    <a href="#" class="active mr-3">1</a>
-                    <a href="#">2</a>
-                    <i class="arrow right"></i>             
+                <?php if (!isset($_POST['search']) || (isset($_POST['search']) && empty($_POST['keyword']))) { ?>
+                    <?php
+                    $infor_products = "product_id, product_name, product_price, product_image_1, discount";
+                    $query_products = mysqli_query($con, "SELECT " . $infor_product . " FROM products, product_types, coupons WHERE products.product_type_id=product_types.product_type_id AND product_types.coupon_id=coupons.coupon_id LIMIT 9 OFFSET " . $_GET['next_page'] * 9 . ";");
+                    while ($row = mysqli_fetch_array($query_products)) {
+                        ?>
+                        <a href="product_detail.php?product_id=<?php echo htmlentities($row['product_id']); ?>" class="product-content">
+                            <div class="imageproduct text-center"><img class="radius-product" src="../assets/img/image_products/<?php echo htmlentities($row['product_image_1']); ?>"/>
+                                <div class="productname text-center mt-2"><?php echo htmlentities($row['product_name']); ?></div>
+                            </div>
+                            <div>
+                                <del class="margimobile">$<?php echo htmlentities($row['product_price']); ?></del>
+                                <strong>$<?php echo htmlentities($row['product_price'] - ($row['product_price'] * ($row['discount'] / 100))); ?></strong>
+                            </div>
+                        </a>
+                    <?php } ?>
                 </div>
-            </div>
-        </div>      
+                <div style="text-align: center">
+                    <ul class="pagination">
+                        <li class="page-item"><a class="page-link" href="page_product.php?next_page=<?php echo $_GET['next_page'] - 1; ?>">Previous</a></li>
+                        <?php if ($_GET['next_page'] > 0) { ?>
+                            <li class="page-item"><a class="page-link" href="page_product.php?next_page=<?php echo $_GET['next_page'] - 1; ?>"><?php echo $_GET['next_page']; ?></a></li>
+                        <?php } ?>
+                        <li class="page-item active"><a class="page-link" href="page_product.php?next_page=<?php echo $_GET['next_page']; ?>"><?php echo $_GET['next_page'] + 1; ?></a></li>
+                        <li class="page-item"><a class="page-link" href="page_product.php?next_page=<?php echo $_GET['next_page'] + 1; ?>"><?php echo $_GET['next_page'] + 2; ?></a></li>
+                        <?php if ($_GET['next_page'] == 0) { ?>
+                            <li class="page-item"><a class="page-link" href="page_product.php?next_page=<?php echo $_GET['next_page'] + 2; ?>"><?php echo $_GET['next_page'] + 3; ?></a></li>
+                        <?php } ?>  
+                        <li class="page-item"><a class="page-link" href="page_product.php?next_page=<?php echo $_GET['next_page'] + 1; ?>">Next</a></li>
+                    </ul>
+                </div>
 
-        <!-- @endsection
-    
-        @section('javascript')
-    
-        @endsection -->
-        <!-- <style>a {color:black}</style> -->
+
+                <!--
+                                <div class="nextpage1">          
+                                    <ul class="pagination">
+                <?php //if ($_SESSION['next_page'] > 0) { ?>
+                                            <a href="handling/handling_next_page.php?next_page=<?php //echo $_SESSION['next_page'] - 1;        ?>"><?php //echo $_SESSION['next_page'];        ?></a>
+                <?php //} ?>
+                                        <a href="handling/handling_next_page.php?next_page=<?php //echo $_SESSION['next_page'];        ?>" class="active mr-3"><?php //echo $_SESSION['next_page'] + 1;        ?></a>
+                                        <a href="handling/handling_next_page.php?next_page=<?php //echo $_SESSION['next_page'] + 1;        ?>"><?php //echo $_SESSION['next_page'] + 2;        ?></a>
+                <?php //if ($_SESSION['next_page'] == 0) { ?>
+                                            <a href="handling/handling_next_page.php?next_page=<?php //echo $_SESSION['next_page'] + 2;        ?>"><?php //echo $_SESSION['next_page'] + 3;        ?></a>
+                <?php //} ?>            
+                                    </ul>
+                                </div>-->
+            <?php } else { ?>
+                <?php
+                $infor_products = "product_id, product_name, product_price, product_image_1, discount";
+                $query_products = mysqli_query($con, "SELECT " . $infor_product . " FROM products, product_types, coupons WHERE products.product_type_id=product_types.product_type_id AND product_types.coupon_id=coupons.coupon_id AND product_name LIKE '%" . $_POST['keyword'] . "%';");
+                while ($row = mysqli_fetch_array($query_products)) {
+                    ?>
+                    <div class="grid-container">
+                        <a href="product_detail.php?product_id=<?php echo htmlentities($row['product_id']); ?>" class="product-content">
+                            <div class="imageproduct text-center"><img class="radius-product" src="../assets/img/image_products/<?php echo htmlentities($row['product_image_1']); ?>"/>
+                                <div class="productname text-center mt-2"><?php echo htmlentities(substr($row['product_name'], 0, 25)); ?>...</div>
+                            </div>
+                            <div>
+                                <del class="margimobile">$<?php echo htmlentities($row['product_price']); ?></del>
+                                <strong>$<?php echo htmlentities($row['product_price'] - ($row['product_price'] * ($row['discount'] / 100))); ?></strong>
+                            </div>
+                        </a>
+                    </div>
+                <?php } ?>
+            </div>
+        <?php } ?>
+    </div> 
+<script>
+                $(document).ready(function () {
+                    $('#burger-top').click(() => {
+                        // $(".modal-overlay").show();
+                        $('#burger-top').css('display', 'none');
+                        $('#close-top').css('display', 'inline-block');
+                        $(".panel").slideToggle();
+                    });
+
+                    $('#close-top').click(() => {
+                        $('#burger-top').css('display', 'inline-block');
+                        $('#close-top').css('display', 'none');
+                        $(".panel").slideToggle();
+                    });
+
+                    // Shopping cart dropdown
+                    $('#topnav__item__cart').click(() => {
+                        $('.cart__dropdown').slideDown();
+
+                    });
+
+                    $(document).click(function (e) {
+                        if ($(e.target).is('.cart__dropdown, #topnav__item__cart *'))
+                            return;
+                        $('.cart__dropdown').slideUp();
+                    });
+
+
+                    // $('#topnav__item__cart').click(() => {
+                    //     $('.cart__dropdown').slideUp();
+                    // })
+
+                    //Sticky navbar
+                    const navbarOffset = $('.navbar__topnav').offset();
+                    window.onscroll = function () {
+                        StickNavBar(navbarOffset.top)
+                    };
+
+                    // console.log(offset.top);
+                });
+
+
+                function StickNavBar(navbarOffset) {
+                    if (window.pageYOffset >= 80) {
+                        $('.navbar__topnav').addClass('navbar__topnav-sticky ');
+                        $(".panel").addClass('panel-stickey');
+
+                    } else {
+                        $('.navbar__topnav').removeClass('navbar__topnav-sticky ');
+                        $(".panel").removeClass('panel-stickey');
+
+                    }
+                }
+
+                function RemoveDropDownItem(id) {
+                    $.ajax({
+                        url: '/cart/remove/' + id,
+                        type: 'GET'
+                    }).done(function (response) {
+                        RemoveItemInCart(response);
+                    });
+                }
+
+                function RemoveItemInCart(response) {
+                    var newDropDownItems = $('.cart__dropdown__list', $($.parseHTML(response)));
+                    if (newDropDownItems) {
+                        $('.cart__dropdown__list').empty();
+                        $('.cart__dropdown__list').append(newDropDownItems);
+                    }
+
+                    var newCartItems = $('#changing-cart', $($.parseHTML(response)));
+                    if (newCartItems) {
+                        $('#changing-cart').empty();
+                        $('#changing-cart').append(newCartItems);
+                    }
+                }
+    </script>    
 </body>
-<footer>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>   -->
-</footer>
 </html>

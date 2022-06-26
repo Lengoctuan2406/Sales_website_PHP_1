@@ -1,42 +1,67 @@
-<?php 
+<?php
+include('../database/connect.php');
 include('handling/handling_login.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">    
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous"></head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> 
-    <!--<link rel="stylesheet" href="../Styles/CSS/home.css">-->
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link href="../assets/others/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="../assets/others/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <link href="../assets/css/users/login.css" rel="stylesheet">
 </head>
-<body>
-    <hr>
-    <div>
-        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" ?>
-            <div>
-                <input name="email" type="email" placeholder="name@example.com" />
-                <label for="inputEmail">Enter your email</label>
+<body class="bg-gradient-login">
+  <!-- Login Content -->
+  <div class="container-login">
+    <div class="row justify-content-center">
+      <div class="col-xl-6 col-lg-12 col-md-9">
+        <div class="card shadow-sm my-5">
+          <div class="card-body p-0">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="login-form">
+                  <div class="text-center">
+                    <h1 class="h4 text-gray-900 mb-4">Login</h1>
+                  </div>
+                  <form class="user" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+                    <div class="form-group">
+                      <input name="email" type="email" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp"
+                        placeholder="Enter Email Address">
+                    </div>
+                    <div class="form-group">
+                      <input name="password" type="password" class="form-control" id="exampleInputPassword" placeholder="Password">
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary btn-block" type="submit" name="login">Đăng nhập</button>
+                    </div>
+                  </form>
+                  <hr>
+                  <div class="text-center">
+                    <a class="font-weight-bold small" href="register.php">Create an Account!</a>
+                  </div>
+                  <div class="text-center">
+                    <a class="font-weight-bold small" href="index.php">Return your page!</a>
+                  </div>
+                  <div class="text-center">
+                  </div>
+                </div>
+              </div>
             </div>
-
-            <div>
-                <input name="password" type="password" placeholder="Password" required />
-                <label for="inputPassword">Enter your password</label>
-            </div>
-
-            <div>
-                <a href="password-recovery.php">Forgot password</a>
-                <button name="login" type="submit">Login</button>
-            </div>
-        </form>
+          </div>
+        </div>
+      </div>
     </div>
-    <div>
-        <div><a href="signup.php">Create a new account</a></div>
-        <div><a href="index.php">Return your page</a></div>
-    </div>
+  </div>
+  <!-- Login Content -->
+  <script src="../assets/others/vendor/jquery/jquery.min.js"></script>
+  <script src="../assets/others/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/others/vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="../assets/js/users/login.js"></script>
 </body>
+
 </html>

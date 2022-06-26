@@ -3,10 +3,10 @@
 define('DB_SERVER', 'localhost');
 define('DB_USER', 'root');
 define('DB_PASS', '');
-//tên database
-define('DB_NAME', 'sales_website_php_1');
+//database name
+define('DB_NAME', 'meow_shop');
 $con = mysqli_connect(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
-//kiểm tra kết nối
+//check connection
 if (mysqli_connect_errno()) {
     echo "Failed to connect to MySQL: " . mysqli_connect_error();
 }
