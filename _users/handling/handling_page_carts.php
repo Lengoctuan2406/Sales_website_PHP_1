@@ -1,8 +1,10 @@
 <?php
 
 session_start();
-
-if (isset($_GET['product_id']) || isset($_GET['add'])) {
+if (!isset($_SESSION['account_id'])) {
+    header("location:login.php");
+}
+if ((isset($_GET['product_id']) && isset($_GET['cart_quantity'])) || isset($_GET['add'])) {
     $product_id = $_GET['product_id'];
     $cart_quantity = $_GET['cart_quantity'];
     if (isset($_GET['checkout'])) {

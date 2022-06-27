@@ -79,7 +79,7 @@ if (!isset($_SESSION['account_id'])) {
                     <div class="container-fluid" id="container-wrapper">
                         <div id="printableArea">
                             <div class="contentreport" style="text-align:center;">
-                                <h2>Customer report</h2>
+                                <h2>Product report</h2>
                                 <?php
                                 date_default_timezone_set('Asia/Ho_Chi_Minh');
                                 $currentTime = date('d/m/Y', time());
@@ -133,7 +133,7 @@ if (!isset($_SESSION['account_id'])) {
                             </div>
                         </div>
                         <div style="text-align: right; margin-bottom:3rem">
-                            <Button class="btn btn-sm btn-primary" onclick="printDiv('printableArea')">Print</button>
+                            <Button class="btn btn-sm btn-primary" onclick="printDiv('printableArea')">Export product</button>
                         </div>
                     </div>
 

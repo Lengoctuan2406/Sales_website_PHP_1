@@ -133,7 +133,7 @@ if (!isset($_SESSION['account_id'])) {
                             </div>
                         </div>
                         <div style="text-align: right; margin-bottom:3rem">
-                            <Button class="btn btn-sm btn-primary" onclick="printDiv('printableArea')">Print</button>
+                            <Button class="btn btn-sm btn-primary" onclick="printDiv('printableArea')">Export customer</button>
                         </div>
 
                     </div>

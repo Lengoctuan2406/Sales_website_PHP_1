@@ -32,7 +32,7 @@
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseEmployee"
            aria-expanded="true" aria-controls="collapseEmployee">
-            <i class="fas fa-users"></i>
+            <i class="fas fa-user-friends"></i>
             <span>Employee</span>
         </a>
         <div id="collapseEmployee" class="collapse" aria-labelledby="headingEmployee" data-parent="#accordionSidebar">
@@ -46,7 +46,7 @@
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSupplier"
            aria-expanded="true" aria-controls="collapseSupplier">
-            <i class="fas fa-users"></i>
+            <i class="fas fa-handshake"></i>
             <span>Supplier</span>
         </a>
         <div id="collapseSupplier" class="collapse" aria-labelledby="headingSupplier" data-parent="#accordionSidebar">
@@ -89,7 +89,7 @@
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCoupon"
            aria-expanded="true" aria-controls="collapseCoupon">
-            <i class="fas fa-drumstick-bite"></i>
+            <i class="fas fa-dollar-sign"></i>
             <span>Coupon</span>
         </a>
         <div id="collapseCoupon" class="collapse" aria-labelledby="headingCoupon" data-parent="#accordionSidebar">

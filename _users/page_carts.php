@@ -1,9 +1,6 @@
 <?php
 include('../database/connect.php');
 include('handling/handling_page_carts.php');
-if (!isset($_SESSION['account_id'])) {
-    header("location:login.php");
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">

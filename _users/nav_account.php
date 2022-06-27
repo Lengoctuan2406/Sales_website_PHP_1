@@ -26,7 +26,7 @@
         </li>
         <li class="nav-item">
             <a class="nav-link" href="index.php">
-                <i class="mdi mdi-logout-variant menu-icon"></i>
+                <i class="mdi mdi mdi-home menu-icon"></i>
                 <span class="menu-title">Home page</span>
             </a>
         </li>
