@@ -17,11 +17,13 @@ if (isset($_POST['orders'])) {
         $product = explode(',', $order_product_all_id);
         $delete_quatity = explode(',', $order_all_quantity);
         for ($i = 0; $i < count($product); $i++) {
-            mysqli_query($con, "UPDATE products SET product_quantity=product_quantity-".(int)$delete_quatity[$i]." WHERE product_id=".(int)$product[$i].";");
+            mysqli_query($con, "UPDATE products SET product_quantity=product_quantity-" . (int) $delete_quatity[$i] . " WHERE product_id=" . (int) $product[$i] . ";");
         }
 
         //delete all carts
-        $delete_carts = mysqli_query($con, "DELETE FROM carts WHERE account_id=" . $_SESSION['account_id'] . ";");
+        if ($_SESSION['delete_cart'] == 1) {
+            $delete_carts = mysqli_query($con, "DELETE FROM carts WHERE account_id=" . $_SESSION['account_id'] . ";");
+        }
         header("location:account_order.php");
     } else {
         echo "<script>alert('Order product failed!');</script>";

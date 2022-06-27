@@ -14,7 +14,7 @@ if (isset($_POST['add_products'])) {
     $product_type_id = $_POST['product_type_id'];
     $brand = $_POST['brand'];
     $product_quantity = $_POST['product_quantity'];
-    $product_description = $_POST['product_description'];
+    $product_description = test_input($_POST['product_description']);
     $product_price = $_POST['product_price'];
 
     $check_update_success = true;

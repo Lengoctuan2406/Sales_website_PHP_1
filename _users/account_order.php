@@ -24,7 +24,7 @@ if (!isset($_SESSION['account_id'])) {
 
         <link rel="stylesheet" href="../assets/css/users/account_page.css">
 
-        <link rel="shortcut icon" href="../assets/img/others/favicon.png" />
+        <link href="../assets/img/others/logo_mini.png" rel="icon">
     </head>
 
     <body>
@@ -36,14 +36,6 @@ if (!isset($_SESSION['account_id'])) {
                         <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-bs-toggle="minimize">
                             <span class="icon-menu"></span>
                         </button>
-                    </div>
-                    <div>
-                        <a class="navbar-brand brand-logo" href="index.php">
-                            <img src="../assets/img/others/logo.svg" alt="logo" />
-                        </a>
-                        <a class="navbar-brand brand-logo-mini" href="index.php">
-                            <img src="../assets/img/others/logo-mini.svg" alt="logo" />
-                        </a>
                     </div>
                 </div>
                 <div class="navbar-menu-wrapper d-flex align-items-top"> 
@@ -57,44 +49,9 @@ if (!isset($_SESSION['account_id'])) {
             </nav>
             <!-- partial -->
             <div class="container-fluid page-body-wrapper">
-
-                <nav class="sidebar sidebar-offcanvas" id="sidebar">
-                    <ul class="nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="account_page.php">
-                                <i class="mdi mdi-account-circle menu-icon"></i>
-                                <span class="menu-title">Your account</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="account_reset_pass.php">
-                                <i class="menu-icon mdi mdi-refresh"></i>
-                                <span class="menu-title">Reset password</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="account_order.php">
-                                <i class="menu-icon mdi mdi-shopping"></i>
-                                <span class="menu-title">Your Order</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="account_purchase_history.php">
-                                <i class="menu-icon mdi mdi-history"></i>
-                                <span class="menu-title">Purchase History</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="handling/handling_logout.php">
-                                <i class="mdi mdi-logout-variant menu-icon"></i>
-                                <span class="menu-title">Log out</span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-
-                <!-- partial -->
-
+                <?php
+                include('nav_account.php');
+                ?>
                 <!-- waiting -->
                 <div class="row flex-grow col-6">
                     <div class="content-wrapper">
@@ -107,9 +64,9 @@ if (!isset($_SESSION['account_id'])) {
                                         </div>                  
                                     </div>
                                     <?php
-                                    $total = 0;
                                     $query_order = mysqli_query($con, "SELECT * FROM orders WHERE account_id=" . $_SESSION['account_id'] . " AND order_status_id=1;");
                                     while ($row = mysqli_fetch_array($query_order)) {
+                                        $total = 0;
                                         ?>
                                         <hr style="color:brown">
                                         <div class="infor_product mt-3 row">
@@ -159,7 +116,7 @@ if (!isset($_SESSION['account_id'])) {
                                                     $order_all_quantity = explode(',', $row['order_all_quantity']);
                                                     for ($i = 0; $i < count($order_product_all_id); $i++) {
                                                         $infor_product = "products.product_id, product_name, product_price, product_image_1, discount";
-                                                        $query_products = mysqli_query($con, "SELECT " . $infor_product . " FROM products, count_sales, product_types, coupons WHERE products.product_type_id=product_types.product_type_id AND product_types.coupon_id=coupons.coupon_id AND count_sales.product_id=products.product_id AND products.product_id=$order_product_all_id[$i];");
+                                                        $query_products = mysqli_query($con, "SELECT " . $infor_product . " FROM products, product_types, coupons WHERE products.product_type_id=product_types.product_type_id AND product_types.coupon_id=coupons.coupon_id AND products.product_id=$order_product_all_id[$i];");
                                                         while ($row_product = mysqli_fetch_array($query_products)) {
                                                             $GLOBALS['total'] += ($row_product['product_price'] - ($row_product['product_price'] * ($row_product['discount'] / 100))) * $order_all_quantity[$i];
                                                             ?>
@@ -221,9 +178,9 @@ if (!isset($_SESSION['account_id'])) {
                                         </div>                  
                                     </div>
                                     <?php
-                                    $total = 0;
                                     $query_order = mysqli_query($con, "SELECT * FROM orders WHERE account_id=" . $_SESSION['account_id'] . " AND order_status_id=2;");
                                     while ($row = mysqli_fetch_array($query_order)) {
+                                        $total = 0;
                                         ?>
                                         <hr style="color:brown">
                                         <div class="infor_product mt-3 row">

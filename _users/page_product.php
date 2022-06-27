@@ -38,91 +38,9 @@ if (isset($_POST['search'])) {
     <title>Page Product</title>
 </head>
 <header>
-    <nav class="navbar__container">
-        <div class="navbar__topnav navbar__topnav-main">
-            <div class="topnav__item topnav__item__logo">
-                <a href="index.php">
-                    <img class="imageradius" src="../assets/img/others/logo_meow.png" style="max-width: 130px; padding-top: 10px"
-                         alt="product1">
-                </a>
-            </div>
-
-            <div class="topnav__item topnav__item-fullscreen">
-                <a href="index.php" class="topnav__item__button">
-                    HOME
-                </a>
-                <div id="topnav__item-product">
-                    <a href="" class="topnav__item__button">
-                        PRODUCT
-                    </a>
-                    <div class="product__dropdown__content">
-                        <?php
-                        $query_type = mysqli_query($con, "SELECT product_type_id, product_type_name FROM product_types;");
-                        while ($row = mysqli_fetch_array($query_type)) {
-                            ?>
-                            <a href="page_category.php?product_type_id=<?php echo htmlentities($row['product_type_id']); ?>"><?php echo htmlentities($row['product_type_name']); ?></a>
-                        <?php } ?>
-                    </div>
-                </div>
-                <a href="" class="topnav__item__button">
-                    CONTACT
-                </a>
-            </div>
-            <div class="topnav__item topnav__item-fullscreen">
-                <input type="text" id="topnav__search__input" />
-                <?php
-                if (!isset($_SESSION['account_id'])) {
-                    ?>
-                    <a href="login.php" class="topnav__item__button">
-                        LOG IN
-                    </a>
-                <?php } else { ?> 
-                    <a href="account_page.php" class="topnav__item__button">
-                        Hello <?php echo $_SESSION['account_name']; ?>
-                    </a> 
-                <?php } ?>
-                <div id="topnav__item__cart">
-                    <a class="topnav__item__button topnav__item-icon">
-                        <i class="fas fa-shopping-cart"></i>
-                    </a>
-
-                    <div class="cart__dropdown">
-                        <div class="cart__dropdown__list">
-                            <?php
-                            $total = 0;
-                            $infor_cart = "products.product_id, product_name, product_price, product_image_1, discount, cart_quantity";
-                            $table = "products, count_sales, product_types, coupons, carts";
-                            $link = "products.product_type_id=product_types.product_type_id AND product_types.coupon_id=coupons.coupon_id AND count_sales.product_id=products.product_id AND carts.product_id=products.product_id";
-                            $query_carts = mysqli_query($con, "SELECT " . $infor_cart . " FROM $table WHERE $link AND account_id=" . $_SESSION['account_id'] . ";");
-                            while ($row = mysqli_fetch_array($query_carts)) {
-                                $GLOBALS['total'] += (($row['product_price'] - ($row['product_price'] * ($row['discount'] / 100))) * $row['cart_quantity']);
-                                ?>
-                                <div class="cart__dropdown__item">
-                                    <img src="../assets/img/image_products/<?php echo htmlentities($row['product_image_1']); ?>" class="cart__dropdown__image" alt="" srcset="">
-                                    <div class="cart__dropdown__content">
-                                        <a href="product_detail.php?product_id=<?php echo htmlentities($row['product_id']); ?>" class="cart__dropdown__content-name">
-                                            <?php echo htmlentities($row['product_name']); ?>
-                                        </a>
-                                        <div class="cart__dropdown__content-price">
-                                            <?php echo htmlentities($row['cart_quantity']); ?>
-                                        </div>
-                                        <div class="cart__dropdown__content-price">
-                                            $<?php echo htmlentities(($row['product_price'] - ($row['product_price'] * ($row['discount'] / 100))) * $row['cart_quantity']); ?>
-                                        </div>
-                                    </div>
-                                </div>
-                                <hr>
-                            <?php } ?>
-                        </div>    
-                        <div class="cart__dropdown__selection">
-                            <a href="page_carts.php" class="cart__dropdown__button">View Cart</a>
-                            <a href="checkout.php" class="cart__dropdown__button">Checkout</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </nav>
+    <?php
+    include('nav.php');
+    ?>
 </header>
 <body>
     <div class=".container-fluid">
@@ -184,7 +102,7 @@ if (isset($_POST['search'])) {
                                 <div class="contentTrending">
                                     <div><?php echo htmlentities(substr($row['product_name'], 0, 25)); ?>...</div>
                                     <del class="margimobile">$<?php echo htmlentities($row['product_price']); ?></del>
-                                    <strong>$<?php echo htmlentities($row['product_price'] - ($row['product_price'] * ($row['discount'] / 100))); ?></strong>
+                                    <strong>$<?php echo htmlentities(round($row['product_price'] - ($row['product_price'] * ($row['discount'] / 100)), 2)); ?></strong>
                                 </div>
                             </a>
                         </div>
@@ -210,7 +128,7 @@ if (isset($_POST['search'])) {
                             </div>
                             <div>
                                 <del class="margimobile">$<?php echo htmlentities($row['product_price']); ?></del>
-                                <strong>$<?php echo htmlentities($row['product_price'] - ($row['product_price'] * ($row['discount'] / 100))); ?></strong>
+                                <strong>$<?php echo htmlentities(round($row['product_price'] - ($row['product_price'] * ($row['discount'] / 100)), 2)); ?></strong>
                             </div>
                         </a>
                     <?php } ?>
@@ -235,12 +153,12 @@ if (isset($_POST['search'])) {
                                 <div class="nextpage1">          
                                     <ul class="pagination">
                 <?php //if ($_SESSION['next_page'] > 0) { ?>
-                                            <a href="handling/handling_next_page.php?next_page=<?php //echo $_SESSION['next_page'] - 1;        ?>"><?php //echo $_SESSION['next_page'];        ?></a>
+                                            <a href="handling/handling_next_page.php?next_page=<?php //echo $_SESSION['next_page'] - 1;         ?>"><?php //echo $_SESSION['next_page'];         ?></a>
                 <?php //} ?>
-                                        <a href="handling/handling_next_page.php?next_page=<?php //echo $_SESSION['next_page'];        ?>" class="active mr-3"><?php //echo $_SESSION['next_page'] + 1;        ?></a>
-                                        <a href="handling/handling_next_page.php?next_page=<?php //echo $_SESSION['next_page'] + 1;        ?>"><?php //echo $_SESSION['next_page'] + 2;        ?></a>
+                                        <a href="handling/handling_next_page.php?next_page=<?php //echo $_SESSION['next_page'];         ?>" class="active mr-3"><?php //echo $_SESSION['next_page'] + 1;         ?></a>
+                                        <a href="handling/handling_next_page.php?next_page=<?php //echo $_SESSION['next_page'] + 1;         ?>"><?php //echo $_SESSION['next_page'] + 2;         ?></a>
                 <?php //if ($_SESSION['next_page'] == 0) { ?>
-                                            <a href="handling/handling_next_page.php?next_page=<?php //echo $_SESSION['next_page'] + 2;        ?>"><?php //echo $_SESSION['next_page'] + 3;        ?></a>
+                                            <a href="handling/handling_next_page.php?next_page=<?php //echo $_SESSION['next_page'] + 2;         ?>"><?php //echo $_SESSION['next_page'] + 3;         ?></a>
                 <?php //} ?>            
                                     </ul>
                                 </div>-->
@@ -257,7 +175,7 @@ if (isset($_POST['search'])) {
                             </div>
                             <div>
                                 <del class="margimobile">$<?php echo htmlentities($row['product_price']); ?></del>
-                                <strong>$<?php echo htmlentities($row['product_price'] - ($row['product_price'] * ($row['discount'] / 100))); ?></strong>
+                                <strong>$<?php echo htmlentities(round($row['product_price'] - ($row['product_price'] * ($row['discount'] / 100)), 2)); ?></strong>
                             </div>
                         </a>
                     </div>
@@ -265,82 +183,82 @@ if (isset($_POST['search'])) {
             </div>
         <?php } ?>
     </div> 
-<script>
-                $(document).ready(function () {
-                    $('#burger-top').click(() => {
-                        // $(".modal-overlay").show();
-                        $('#burger-top').css('display', 'none');
-                        $('#close-top').css('display', 'inline-block');
-                        $(".panel").slideToggle();
-                    });
+    <script>
+        $(document).ready(function () {
+            $('#burger-top').click(() => {
+                // $(".modal-overlay").show();
+                $('#burger-top').css('display', 'none');
+                $('#close-top').css('display', 'inline-block');
+                $(".panel").slideToggle();
+            });
 
-                    $('#close-top').click(() => {
-                        $('#burger-top').css('display', 'inline-block');
-                        $('#close-top').css('display', 'none');
-                        $(".panel").slideToggle();
-                    });
+            $('#close-top').click(() => {
+                $('#burger-top').css('display', 'inline-block');
+                $('#close-top').css('display', 'none');
+                $(".panel").slideToggle();
+            });
 
-                    // Shopping cart dropdown
-                    $('#topnav__item__cart').click(() => {
-                        $('.cart__dropdown').slideDown();
+            // Shopping cart dropdown
+            $('#topnav__item__cart').click(() => {
+                $('.cart__dropdown').slideDown();
 
-                    });
+            });
 
-                    $(document).click(function (e) {
-                        if ($(e.target).is('.cart__dropdown, #topnav__item__cart *'))
-                            return;
-                        $('.cart__dropdown').slideUp();
-                    });
-
-
-                    // $('#topnav__item__cart').click(() => {
-                    //     $('.cart__dropdown').slideUp();
-                    // })
-
-                    //Sticky navbar
-                    const navbarOffset = $('.navbar__topnav').offset();
-                    window.onscroll = function () {
-                        StickNavBar(navbarOffset.top)
-                    };
-
-                    // console.log(offset.top);
-                });
+            $(document).click(function (e) {
+                if ($(e.target).is('.cart__dropdown, #topnav__item__cart *'))
+                    return;
+                $('.cart__dropdown').slideUp();
+            });
 
 
-                function StickNavBar(navbarOffset) {
-                    if (window.pageYOffset >= 80) {
-                        $('.navbar__topnav').addClass('navbar__topnav-sticky ');
-                        $(".panel").addClass('panel-stickey');
+            // $('#topnav__item__cart').click(() => {
+            //     $('.cart__dropdown').slideUp();
+            // })
 
-                    } else {
-                        $('.navbar__topnav').removeClass('navbar__topnav-sticky ');
-                        $(".panel").removeClass('panel-stickey');
+            //Sticky navbar
+            const navbarOffset = $('.navbar__topnav').offset();
+            window.onscroll = function () {
+                StickNavBar(navbarOffset.top)
+            };
 
-                    }
-                }
+            // console.log(offset.top);
+        });
 
-                function RemoveDropDownItem(id) {
-                    $.ajax({
-                        url: '/cart/remove/' + id,
-                        type: 'GET'
-                    }).done(function (response) {
-                        RemoveItemInCart(response);
-                    });
-                }
 
-                function RemoveItemInCart(response) {
-                    var newDropDownItems = $('.cart__dropdown__list', $($.parseHTML(response)));
-                    if (newDropDownItems) {
-                        $('.cart__dropdown__list').empty();
-                        $('.cart__dropdown__list').append(newDropDownItems);
-                    }
+        function StickNavBar(navbarOffset) {
+            if (window.pageYOffset >= 80) {
+                $('.navbar__topnav').addClass('navbar__topnav-sticky ');
+                $(".panel").addClass('panel-stickey');
 
-                    var newCartItems = $('#changing-cart', $($.parseHTML(response)));
-                    if (newCartItems) {
-                        $('#changing-cart').empty();
-                        $('#changing-cart').append(newCartItems);
-                    }
-                }
+            } else {
+                $('.navbar__topnav').removeClass('navbar__topnav-sticky ');
+                $(".panel").removeClass('panel-stickey');
+
+            }
+        }
+
+        function RemoveDropDownItem(id) {
+            $.ajax({
+                url: '/cart/remove/' + id,
+                type: 'GET'
+            }).done(function (response) {
+                RemoveItemInCart(response);
+            });
+        }
+
+        function RemoveItemInCart(response) {
+            var newDropDownItems = $('.cart__dropdown__list', $($.parseHTML(response)));
+            if (newDropDownItems) {
+                $('.cart__dropdown__list').empty();
+                $('.cart__dropdown__list').append(newDropDownItems);
+            }
+
+            var newCartItems = $('#changing-cart', $($.parseHTML(response)));
+            if (newCartItems) {
+                $('#changing-cart').empty();
+                $('#changing-cart').append(newCartItems);
+            }
+        }
     </script>    
 </body>
 </html>

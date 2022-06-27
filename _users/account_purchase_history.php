@@ -25,7 +25,7 @@ if (!isset($_SESSION['account_id'])) {
         <link rel="stylesheet" href="../assets/others/vendor/select2-bootstrap-theme/select2-bootstrap.min.css">
 
         <link rel="stylesheet" href="../assets/css/users/account_page.css">
-        <link rel="shortcut icon" href="../assets/img/others/favicon.png" />
+        <link href="../assets/img/others/logo_mini.png" rel="icon">
     </head>
     <body>
         <div class="container-scroller">
@@ -36,14 +36,6 @@ if (!isset($_SESSION['account_id'])) {
                         <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-bs-toggle="minimize">
                             <span class="icon-menu"></span>
                         </button>
-                    </div>
-                    <div>
-                        <a class="navbar-brand brand-logo" href="index.php">
-                            <img src="../assets/img/others/logo.svg" alt="logo" />
-                        </a>
-                        <a class="navbar-brand brand-logo-mini" href="index.php">
-                            <img src="../assets/img/others/logo-mini.svg" alt="logo" />
-                        </a>
                     </div>
                 </div>
                 <div class="navbar-menu-wrapper d-flex align-items-top"> 
@@ -57,43 +49,9 @@ if (!isset($_SESSION['account_id'])) {
             </nav>
             <!-- partial -->
             <div class="container-fluid page-body-wrapper">
-                <nav class="sidebar sidebar-offcanvas" id="sidebar">
-                    <ul class="nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="account_page.php">
-                                <i class="mdi mdi-account-circle menu-icon"></i>
-                                <span class="menu-title">Your account</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="account_reset_pass.php">
-                                <i class="menu-icon mdi mdi-refresh"></i>
-                                <span class="menu-title">Reset password</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="account_order.php">
-                                <i class="menu-icon mdi mdi-shopping"></i>
-                                <span class="menu-title">Your Order</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="account_purchase_history.php">
-                                <i class="menu-icon mdi mdi-history"></i>
-                                <span class="menu-title">Purchase History</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="handling/handling_logout.php">
-                                <i class="mdi mdi-logout-variant menu-icon"></i>
-                                <span class="menu-title">Log out</span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-
-                <!-- partial -->
-
+                <?php
+                include('nav_account.php');
+                ?>
                 <!-- waiting -->
                 <div class="row flex-grow col-6">
                     <div class="content-wrapper">
