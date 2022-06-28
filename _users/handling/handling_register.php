@@ -2,7 +2,7 @@
 
 session_start();
 
-if (isset($_POST['add_customers'])) {
+if (isset($_POST['create_account'])) {
     $name = $_POST['name'];
     $email = $_POST['email'];
     $password = $_POST['password'];
